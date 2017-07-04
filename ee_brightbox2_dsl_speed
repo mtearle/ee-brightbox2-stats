@@ -6,6 +6,7 @@ import md5
 import re
 import ConfigParser
 
+# output config if requested
 if len(sys.argv) > 1 and sys.argv[1] == "config":
     print "graph_order down up"
     print "graph_title EE BrightBox2 DSL Speed"
@@ -18,6 +19,7 @@ if len(sys.argv) > 1 and sys.argv[1] == "config":
 
     sys.exit(0)
 
+# load config (host, user, password)
 config = ConfigParser.ConfigParser()
 config.read('brightbox.cfg')
 
@@ -25,8 +27,10 @@ host = config.get('brightbox','host')
 user = config.get('brightbox','user')
 password = config.get('brightbox','password')
 
+# login to router
+
+# hash password to submit over wire
 pc = md5.new(password).hexdigest()
-#print pc
 
 endpoint = "http://%s/login.cgi" % (host)
 
@@ -34,21 +38,19 @@ post_data = { 'usr': user, 'pws': pc, 'GO':'status.htm'}
 
 r = requests.post(endpoint, data = post_data)
 
-#print endpoint
-#print r.text
-
+# grab session cookie
 urn_re = "new_urn\ \=\ '(.*)'"
 urn = re.search(urn_re,r.text).group(1)
 cookies = dict(urn=urn)
-#print urn
+
+
+# grab line up/down speeds
 
 # need to look for
 # var xdslLineStatus = [{state:'UP',mode:'VDSL2',mod_type:'Profile%2017a',snr_margin_down:'63',snr_margin_up:'71',latn_down:'113',latn_up:'0',satn_down:'0',satn_up:'0',output_power_down:'%2D62',output_power_up:'135',rate_down:'57154',rate_up:'19999',attainable_rate_down:'67032000',attainable_rate_up:'22319000',chantype:'fast'}, null];
 
 endpoint = "http://%s/cgi/cgi_dsl_status.js" % (host)
-#print endpoint
 r = requests.get(endpoint,cookies=cookies)
-#print r.text
 
 down_re = ",rate_down:'(\d+)',"
 down_value = re.search(down_re,r.text).group(1)
@@ -60,14 +62,7 @@ print "up.value %s" % up_value
 
 
 
-#endpoint = "http://%s/status_conn.xml" % (host)
-#print endpoint
-#r = requests.get(endpoint,cookies=cookies)
-#print r.text
+# logout
 
 endpoint = "http://%s/logout.cgi" % (host)
-#print endpoint
 r = requests.post(endpoint,cookies=cookies)
-#print r.text
-
-
