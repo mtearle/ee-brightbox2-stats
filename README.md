@@ -1,4 +1,4 @@
-# EE BrightBox 2 munin plugin=
+# EE BrightBox 2 munin plugin
 
 Simple munin plugin to extract EE BrightBox 2 statistics
 
