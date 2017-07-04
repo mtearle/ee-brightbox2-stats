@@ -21,7 +21,7 @@ if len(sys.argv) > 1 and sys.argv[1] == "config":
 
 # load config (host, user, password)
 config = ConfigParser.ConfigParser()
-config.read('brightbox.cfg')
+config.read(['/etc/brightbox.cfg','brightbox.cfg'])
 
 host = config.get('brightbox','host')
 user = config.get('brightbox','user')
