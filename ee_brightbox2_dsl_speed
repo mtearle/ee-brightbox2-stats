@@ -13,9 +13,9 @@ if len(sys.argv) > 1 and sys.argv[1] == "config":
     print "graph_args --base 1000"
     print "graph_vlabel Speed (Mbps)"
     print "down.label Down"
-    print "down.type GUAGE"
+    print "down.type GAUGE"
     print "up.label Up"
-    print "up.type GUAGE"
+    print "up.type GAUGE"
 
     sys.exit(0)
 
