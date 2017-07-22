@@ -14,8 +14,10 @@ if len(sys.argv) > 1 and sys.argv[1] == "config":
     print "graph_vlabel Kbits"
     print "rx.label Received"
     print "rx.type DERIVE"
+    print "rx.min 0"
     print "tx.label Transmitted"
     print "tx.type DERIVE"
+    print "tx.min 0"
 
     sys.exit(0)
 
